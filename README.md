@@ -16,6 +16,34 @@ python3 -m venv .venv
 
 ## Reproducing the paper's numerical claims
 
+### Theorem-level certificate
+
+This is the primary reproducibility entry point for the theorem-level constants. It prints the
+rigorous constants used in the manuscript, checks the displayed numerical inequalities by exact
+rational or outward-rounded interval arithmetic, verifies the Proth seed certificates, and writes a
+machine-readable JSON certificate:
+
+```sh
+.venv/bin/python certify_theorem.py
+```
+
+By default this writes:
+
+```text
+certificates/theorem_certificate.json
+```
+
+The script distinguishes:
+- **proof-relevant constants:** the closed-form bounds used in the theorem, including
+  $Y_{43}^{\ast}\le 9.10\times 10^{31}$ and
+  $M\le 177843590339381623423137292296355<1.78\times10^{32}$;
+- **machine-checkable certificates:** rational/interval checks for the rounded inequalities and
+  exact Proth witness checks for the seed primes;
+- **empirical diagnostics:** the sharper bisection values, including
+  $M_{\mathrm{emp}}\approx 1.48\times10^{32}$, which are not used in the proof.
+
+Expected runtime: < 2 seconds.
+
 ### Seed primes for each terminal $t \in \{2, 5, 7\}$
 
 Verifies the four seed primes used in the paper: one per terminal one-digit prime in
@@ -61,7 +89,7 @@ Different box parameters generally yield different seeds.
 
 ### Main theorem — constraint checker and threshold $M$
 
-Computes the explicit constants and thresholds in the derivation of $M$ using `mpmath` at 90 decimal digits of precision. These scripts reproduce the numerical values printed in the paper; the proof-relevant inequalities in the manuscript are stated with explicit rounded margins so that they do not rely on trusting a single floating-point evaluation. The defaults are the paper's working parameters:
+Computes the explicit constants and empirical/bisected thresholds in the derivation of $M$ using `mpmath` at 90 decimal digits of precision. This script is useful for exploring the constraint chain and reproducing the sharper diagnostic values printed in the paper. The theorem-level certificate is `certify_theorem.py` above. The defaults are the paper's working parameters:
 
 ```sh
 .venv/bin/python prime_digit_sums_constraint_checker_with_search.py
@@ -84,7 +112,7 @@ M           ≈ 1.48e+32      (= ⌈(9/2) · Y_required / log 10 + 9/2⌉)
 
 Expected runtime: < 1 second.
 
-The near-binding thresholds are $Y_{43}^{\ast}$, $Y_{\mathrm{min}}$, and $Y_{\mathrm{maj}}$, with $Y_{\mathrm{min}}$ empirically binding. The headline bound in the main theorem is $M < 1.78\times10^{32}$ (rigorous, with the closed-form certificate giving $M \le 177843590339381623423137292296355$ from $Y_{\ast}\le 9.10\times10^{31}$); the empirical $M \approx 1.48 \times 10^{32}$ is reported as a sharper numerical observation.
+The near-binding thresholds are $Y_{43}^{\ast}$, $Y_{\mathrm{min}}$, and $Y_{\mathrm{maj}}$, with $Y_{\mathrm{min}}$ empirically binding. The headline bound in the main theorem is $M < 1.78\times10^{32}$ (rigorous, with the closed-form certificate giving $M \le 177843590339381623423137292296355$ from $Y_{\ast}\le 9.10\times10^{31}$); the empirical $M \approx 1.48 \times 10^{32}$ is reported only as a sharper numerical observation.
 
 ### Optional: search over $(\eta, \nu)$
 
@@ -116,7 +144,7 @@ Expected runtime: ~minutes.
 | $Y_{43}^{\ast}$ | $L_{\ast}^{(4)} \log q$, analytical threshold corollary | `compute_Y43_star()` |
 | $Y_{\mathrm{maj}}$ | explicit major-arc positivity threshold | `compute_Y_major()` |
 | $Y_{\mathrm{min}}$ | explicit minor-arc threshold | `compute_Y_minor()` |
-| $M$ | main theorem, with integral digit length $L_m=\lfloor 2m/9\rfloor$ | `compute_M()` returns the empirical bisected value; `m_value.py` also stores the rigorous closed-form certificate from $Y_{\ast}\le 9.10\times10^{31}$ |
+| $M$ | main theorem, with integral digit length $L_m=\lfloor 2m/9\rfloor$ | `certify_theorem.py` prints and certifies the rigorous theorem-level value; `compute_M()` returns the empirical bisected value; `m_value.py` stores both literals |
 
 ### Safety margin on $c_{43}^{\ast}$
 
@@ -157,14 +185,21 @@ Expected runtime: < 10 seconds.
 | File | Purpose |
 |---|---|
 | `verify_q0.py` | Seed-prime verification for terminals $t\in\{2,5,7\}$; Proth witness and digit chain checks. |
+| `certify_theorem.py` | Single theorem-level reproducibility script; writes `certificates/theorem_certificate.json`. |
 | `find_terminal_seeds.py` | Exhaustive search for Proth-form seed primes leading to a prescribed terminal one-digit prime. |
 | `prime_digit_sums_constraint_checker_with_search.py` | Main-theorem constraint checker and $(\eta,\nu)$ grid search; computes $M$. |
 | `verify_subgaussian.py` | Floating-point diagnostic for the sharp sub-Gaussian lemma (the paper proof is analytic). |
 | `m_value.py` | Single source of truth for $M$ (canonical literal used by the seed scripts). |
 | `test_m_value.py` | Regression test verifying `M_LITERAL` matches a fresh `compute_M(Inputs())` run; run directly (no pytest needed). |
 | `requirements.txt` | Python dep `mpmath` (`>=1.3,<2`; $M$ reproduces under 1.3.x and 1.4.x). |
+| `certificates/theorem_certificate.json` | Machine-readable certificate generated by `certify_theorem.py`. |
 | `run_paperparams.log` | Sample output of the constraint checker at the paper's working parameters. |
 
 ## Reproducibility
 
-The constraint checker output at the paper's working parameters $(\eta, \nu) = (0.0545, 0.2859)$ is recorded in `run_paperparams.log` and matches the constants reported in the derivation of $M$. The seed verification (`verify_q0.py`) and the regression test (`test_m_value.py`) both run to completion under one second with deterministic output.
+The theorem-level certificate is generated by `certify_theorem.py` and recorded in
+`certificates/theorem_certificate.json`.  The constraint checker output at the paper's working
+parameters $(\eta, \nu) = (0.0545, 0.2859)$ is recorded in `run_paperparams.log` and matches the
+empirical constants reported in the derivation of $M$. The seed verification (`verify_q0.py`) and
+the regression test (`test_m_value.py`) both run to completion under one second with deterministic
+output.

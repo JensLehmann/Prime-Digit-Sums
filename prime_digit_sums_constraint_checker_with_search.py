@@ -296,9 +296,9 @@ def check_C_conditions(L: int, inp: Inputs, der: Derived) -> bool:
     if K > (2*L)//5:
         return False
 
-    # (C3) q^K <= q^{r+1}/H  and (q-1) q^{L-r+1} <= q^{L-K}
-    # first: K <= r+1 - eH
-    if K > (r + 1 - eH):
+    # (C3) q^K <= (q-1) q^r/H and (q-1) q^{L-r+1} <= q^{L-K}
+    # first: K <= r - eH + log_q(q-1)
+    if mpf(K) > mpf(r - eH) + mp.log(q - 1) / der.logq + mpf("1e-30"):
         return False
     # second: log_q(q-1) + (L - r + 1) <= (L - K)
     # i.e. K <= r - 1 - log_q(q-1)
