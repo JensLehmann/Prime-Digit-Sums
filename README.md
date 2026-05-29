@@ -203,3 +203,15 @@ parameters $(\eta, \nu) = (0.0545, 0.2859)$ is recorded in `run_paperparams.log`
 empirical constants reported in the derivation of $M$. The seed verification (`verify_q0.py`) and
 the regression test (`test_m_value.py`) both run to completion under one second with deterministic
 output.
+
+## Clean supplement archive
+
+For journal upload, create the supplement from tracked files only:
+
+```sh
+git archive --format=zip --prefix=Prime-Digit-Sums/ \
+  --output ../Prime-Digit-Sums-code-supplement.zip HEAD
+```
+
+This excludes local development artifacts such as `.git`, `.venv`, `.DS_Store`, bytecode caches, and
+logs ignored by git.  Do not build the submission archive by zipping the working directory directly.

@@ -1,4 +1,5 @@
 {
+  "certificate_format_version": 1,
   "empirical_diagnostics_not_used_in_proof": {
     "M_empirical": "148288679844722033445044981196451.0",
     "Y43_star_bisect": "62672669384355487557166086297943.914212038487371445",
@@ -13,7 +14,6 @@
     "nu": "0.2859",
     "q": "10"
   },
-  "generated_at_utc": "2026-05-29T19:03:28.997539+00:00",
   "numeric_certificate": {
     "checks": [
       {

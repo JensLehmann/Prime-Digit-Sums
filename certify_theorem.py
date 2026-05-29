@@ -18,7 +18,6 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from datetime import datetime, timezone
 from decimal import Decimal, ROUND_CEILING, ROUND_FLOOR, localcontext
 from fractions import Fraction
 from pathlib import Path
@@ -418,7 +417,7 @@ def build_certificate() -> Dict[str, Any]:
     diagnostics = empirical_diagnostics()
     all_numeric_ok = all(item["ok"] for item in numeric["checks"])
     return {
-        "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+        "certificate_format_version": 1,
         "script": Path(__file__).name,
         "proof_relevant_constants": {
             "Y43_star_upper": "9.10e31",
