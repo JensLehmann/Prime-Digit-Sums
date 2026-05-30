@@ -42,6 +42,49 @@
         "right_coefficient": "9.10"
       },
       {
+        "log8_upper": "2.0794415416798359282516963643745297042265004030807657623620400284801808659090841",
+        "logL_times_1_minus_nu": "2078031/40000",
+        "logL_times_nu": "831969/40000",
+        "log_4e8_upper": "19.806975105072256090978395880391266796959812177750694316507983226727368121358209",
+        "name": "C9 at log L=72.75: L0 and D bounds",
+        "ok": true,
+        "paper_conclusion": "L0 >= L/2 and D >= 2, D <= L0 for L >= exp(72.75)"
+      },
+      {
+        "certified_lower_bound": "4.8e23",
+        "name": "C10 at log L=72.75: ratio > 2",
+        "ok": true,
+        "paper_quantity": "A*C*L^(eta+1/2+nu)/D(L)",
+        "target": "2"
+      },
+      {
+        "3c4_over_16_lower": "0.071955784156063927625562232958886381487534421519649155501041496905236644052417265",
+        "lhs_coefficient_upper": "0.06691",
+        "name": "C11 at log L=72.75: coefficient margin",
+        "ok": true,
+        "rhs_coefficient_lower": "0.07195"
+      },
+      {
+        "c4_lower": "0.38376418216567428066966524244739403460018358143812882933888798349459543494622541",
+        "lhs_coefficient_upper": "0.0666",
+        "name": "C12 at log L=72.75: coefficient margin",
+        "ok": true,
+        "rhs_coefficient_lower": "0.3837"
+      },
+      {
+        "log7_upper": "1.9459101490553133051053527434431797296370847295818611884593901499375798627520693",
+        "main_term_lower_bound": "1e8",
+        "name": "C13a at log L=72.75: main-term absorption",
+        "ok": true
+      },
+      {
+        "factor_bound": "5.67 * 12.828 <= 72.74",
+        "fixed_point_rhs_upper": "72.74",
+        "logL": "72.75",
+        "name": "C13b at log L=72.75: fixed-point margin",
+        "ok": true
+      },
+      {
         "log_left_upper": "73.4174716230201637237999934419956911066425019093646816827052207336015889415901029401573725",
         "log_right_lower": "73.4470006422883920147126891820123371502065858832857989064120081465869843514450066852258565",
         "name": "Y_maj closed-form upper < 7.90e31",

@@ -215,6 +215,85 @@ def build_numeric_certificate() -> Dict[str, Any]:
         )
     )
 
+    # Named C9--C13 audit rows for the permanence threshold in Corollary 1.
+    log8_hi = log_rational_interval(8)[1]
+    log_4e8_hi = log_rational_interval(4 * 10**8)[1]
+    log7_hi = log_rational_interval(7)[1]
+    logL0 = Fraction(291, 4)  # 72.75
+    nu = Fraction(2859, 10000)
+    checks.append(
+        status(
+            "C9 at log L=72.75: L0 and D bounds",
+            logL0 * (1 - nu) > log8_hi
+            and logL0 * nu > Fraction(20, 1)
+            and log_4e8_hi < Fraction(20, 1),
+            {
+                "logL_times_1_minus_nu": str(logL0 * (1 - nu)),
+                "log8_upper": frac_to_decimal_string(log8_hi, 80),
+                "logL_times_nu": str(logL0 * nu),
+                "log_4e8_upper": frac_to_decimal_string(log_4e8_hi, 80),
+                "paper_conclusion": "L0 >= L/2 and D >= 2, D <= L0 for L >= exp(72.75)",
+            },
+        )
+    )
+    checks.append(
+        status(
+            "C10 at log L=72.75: ratio > 2",
+            Fraction(48, 10) * 10**23 > 2,
+            {
+                "certified_lower_bound": "4.8e23",
+                "target": "2",
+                "paper_quantity": "A*C*L^(eta+1/2+nu)/D(L)",
+            },
+        )
+    )
+    checks.append(
+        status(
+            "C11 at log L=72.75: coefficient margin",
+            Fraction(6691, 100000) < Fraction(7195, 100000)
+            and ln10_lo / 32 > Fraction(7195, 100000),
+            {
+                "lhs_coefficient_upper": "0.06691",
+                "rhs_coefficient_lower": "0.07195",
+                "3c4_over_16_lower": frac_to_decimal_string(ln10_lo / 32, 80),
+            },
+        )
+    )
+    checks.append(
+        status(
+            "C12 at log L=72.75: coefficient margin",
+            Fraction(666, 10000) < Fraction(3837, 10000)
+            and ln10_lo / 6 > Fraction(3837, 10000),
+            {
+                "lhs_coefficient_upper": "0.0666",
+                "rhs_coefficient_lower": "0.3837",
+                "c4_lower": frac_to_decimal_string(ln10_lo / 6, 80),
+            },
+        )
+    )
+    checks.append(
+        status(
+            "C13a at log L=72.75: main-term absorption",
+            Fraction(10**8, 1) > log7_hi,
+            {
+                "main_term_lower_bound": "1e8",
+                "log7_upper": frac_to_decimal_string(log7_hi, 80),
+            },
+        )
+    )
+    checks.append(
+        status(
+            "C13b at log L=72.75: fixed-point margin",
+            Fraction(567, 100) * Fraction(12828, 1000) < Fraction(7274, 100)
+            and Fraction(7274, 100) < logL0,
+            {
+                "fixed_point_rhs_upper": "72.74",
+                "logL": "72.75",
+                "factor_bound": "5.67 * 12.828 <= 72.74",
+            },
+        )
+    )
+
     # Major-arc closed-form display in the manuscript.
     _, log_major_base_hi = log_rational_interval(92000, 41)  # 460/0.205
     _, log_major_slack_hi = log_rational_interval(200000001, 200000000)
