@@ -52,6 +52,10 @@ The script distinguishes:
 - **empirical diagnostics:** the sharper bisection values, including
   $M_{\mathrm{emp}}\approx 1.48\times10^{32}$, which are not used in the proof.
 
+The JSON also exposes named records for the threshold components
+($Y_{41},Y_{42},Y_{43}^{\ast},Y_{45},Y_{47},Y_{\mathrm{maj}},Y_{\mathrm{min}},x_{\mathrm{AP}}$)
+so the numerical layer can be compared directly with the manuscript's threshold table.
+
 Expected runtime: < 2 seconds.
 
 The code verifies numerical inequalities, integer threshold conversions, deterministic Proth
@@ -90,8 +94,8 @@ Expected runtime: < 1 second.
 
 ### Searching for new seed primes
 
-The seeds for $t = 2, 5$ were found by `find_terminal_seeds.py`, which exhaustively
-searches Proth-form candidates $k\cdot 2^n + 1$:
+The seeds for $t = 2, 5$ were found by `find_terminal_seeds.py`, which scans
+Proth-form candidates $k\cdot 2^n + 1$:
 
 ```sh
 .venv/bin/python find_terminal_seeds.py --targets 2,5 --k-max 5000 --n-range 425,445
@@ -202,7 +206,7 @@ Expected runtime: < 10 seconds.
 | `run_all.py` | One-command smoke test for the theorem certificate, seed certificates, and $M$ regression. |
 | `verify_q0.py` | Seed-prime verification for terminals $t\in\{2,5,7\}$; Proth witness and digit chain checks. |
 | `certify_theorem.py` | Single theorem-level reproducibility script; writes `certificates/theorem_certificate.json`. |
-| `find_terminal_seeds.py` | Exhaustive search for Proth-form seed primes leading to a prescribed terminal one-digit prime. |
+| `find_terminal_seeds.py` | Search over Proth-form seed primes leading to a prescribed terminal one-digit prime. |
 | `prime_digit_sums_constraint_checker_with_search.py` | Main-theorem constraint checker and $(\eta,\nu)$ grid search; computes $M$. |
 | `verify_subgaussian.py` | Floating-point diagnostic for the sharp sub-Gaussian lemma (the paper proof is analytic). |
 | `m_value.py` | Single source of truth for $M$ (canonical literal used by the seed scripts). |
@@ -218,15 +222,3 @@ at the paper's working parameters $(\eta, \nu) = (0.0545, 0.2859)$ to reproduce 
 constants reported in the derivation of $M$. The seed verification (`verify_q0.py`) and the
 regression test (`test_m_value.py`) both run to completion under one second with deterministic
 output.
-
-## Clean supplement archive
-
-For journal upload, create the supplement from tracked files only:
-
-```sh
-git archive --format=zip --prefix=Prime-Digit-Sums/ \
-  --output ../Prime-Digit-Sums-code-supplement.zip HEAD . ':(exclude)run_paperparams.log'
-```
-
-This excludes local development artifacts such as `.git`, `.venv`, `.DS_Store`, bytecode caches, and
-logs.  Do not build the submission archive by zipping the working directory directly.

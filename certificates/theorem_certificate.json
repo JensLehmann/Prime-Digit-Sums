@@ -1,9 +1,13 @@
 {
-  "certificate_format_version": 1,
+  "certificate_format_version": 2,
   "empirical_diagnostics_not_used_in_proof": {
     "M_empirical": "148288679844722033445044981196451.0",
+    "Y41": "42.351664221363021044485839895740012071672062330548",
+    "Y42": "23668.720644033744947669092875622739993537222184456",
     "Y43_star_bisect": "62672669384355487557166086297943.914212038487371445",
+    "Y45": "3535378622.0614274814703110652474505327532098658035",
     "Y47": "36135113848111601048005392087832.363577083810963598",
+    "Y_AP": "8.3064721601005848241997317356006546657166650741883",
     "Y_major_empirical": "74417360782351788312546248418938.791495481511904941",
     "Y_minor_empirical": "75877178593383011396190584791497.098617727185387285",
     "Y_required_empirical": "75877178593383011396190584791497.098617727185387285",
@@ -36,10 +40,10 @@
         "right_log_lower": "72.7513186061252586527187816364675695635160873669527112648857935094685006786617655991855396"
       },
       {
-        "left_coefficient_upper": "9.0721852663965399950308863314563949779483398651973655255713119298122360821287688",
-        "name": "3.94e31 * log(10) < 9.10e31",
+        "left_upper": "90721852663965399950308863314566.2523645763926976576732471678036623299619227763164942743232",
+        "name": "(3.94e31 + 1) * log(10) < 9.10e31",
         "ok": true,
-        "right_coefficient": "9.10"
+        "right": "91000000000000000000000000000000"
       },
       {
         "log8_upper": "2.0794415416798359282516963643745297042265004030807657623620400284801808659090841",
@@ -168,7 +172,8 @@
           "above_theorem_headline_threshold": true,
           "chain_intermediates_prime": true,
           "chain_terminal_matches": true,
-          "displayed_decimal_matches": true,
+          "displayed_decimal_checked": false,
+          "displayed_decimal_matches": null,
           "proth_k_odd": true,
           "proth_size_condition": true,
           "proth_witness_base_7": true
@@ -193,7 +198,8 @@
           "above_theorem_headline_threshold": true,
           "chain_intermediates_prime": true,
           "chain_terminal_matches": true,
-          "displayed_decimal_matches": true,
+          "displayed_decimal_checked": false,
+          "displayed_decimal_matches": null,
           "proth_k_odd": true,
           "proth_size_condition": true,
           "proth_witness_base_7": true
@@ -217,6 +223,7 @@
           "above_theorem_headline_threshold": true,
           "chain_intermediates_prime": true,
           "chain_terminal_matches": true,
+          "displayed_decimal_checked": true,
           "displayed_decimal_matches": true,
           "proth_k_odd": true,
           "proth_size_condition": true,
@@ -241,7 +248,8 @@
           "above_theorem_headline_threshold": true,
           "chain_intermediates_prime": true,
           "chain_terminal_matches": true,
-          "displayed_decimal_matches": true,
+          "displayed_decimal_checked": false,
+          "displayed_decimal_matches": null,
           "proth_k_odd": true,
           "proth_size_condition": true,
           "proth_witness_base_7": true
@@ -256,5 +264,24 @@
         "witness_mod_q": "130403589203323423447235283020802669517455503803633107831222719615396855959000948219798588790657748824387525526423427515411309947393012662272"
       }
     ]
+  },
+  "threshold_components": {
+    "computed_threshold_diagnostics_not_used_in_proof": {
+      "Y41": "42.351664221363021044485839895740012071672062330548",
+      "Y42": "23668.720644033744947669092875622739993537222184456",
+      "Y43_star_bisect": "62672669384355487557166086297943.914212038487371445",
+      "Y45": "3535378622.0614274814703110652474505327532098658035",
+      "Y47": "36135113848111601048005392087832.363577083810963598",
+      "Y_AP": "8.3064721601005848241997317356006546657166650741883",
+      "Y_major_empirical": "74417360782351788312546248418938.791495481511904941",
+      "Y_minor_empirical": "75877178593383011396190584791497.098617727185387285",
+      "Y_required_empirical": "75877178593383011396190584791497.098617727185387285"
+    },
+    "rigorous_upper_bounds_used_in_proof": {
+      "Y43_star": "9.10e31",
+      "Y_major": "7.90e31",
+      "Y_minor": "8.00e31",
+      "Y_star": "9.10e31"
+    }
   }
 }

@@ -12,13 +12,13 @@ ROOT = Path(__file__).resolve().parent
 
 
 def run(label: str, args: list[str]) -> None:
-    print(f"=== {label} ===")
+    print(f"=== {label} ===", flush=True)
     subprocess.run([sys.executable, *args], cwd=ROOT, check=True)
     print()
 
 
 def main() -> int:
-    run("theorem certificate", ["certify_theorem.py"])
+    run("theorem certificate", ["certify_theorem.py", "--no-write"])
     run("seed certificates", ["verify_q0.py"])
     run("M regression", ["test_m_value.py"])
     print("All smoke checks passed.")

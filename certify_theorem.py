@@ -202,15 +202,15 @@ def build_numeric_certificate() -> Dict[str, Any]:
             },
         )
     )
+    y43_left_upper = (Fraction(394, 100) * 10**31 + 1) * ln10_hi
+    y43_right = Fraction(91, 10) * 10**31
     checks.append(
         status(
-            "3.94e31 * log(10) < 9.10e31",
-            Fraction(394, 100) * ln10_hi < Fraction(91, 10),
+            "(3.94e31 + 1) * log(10) < 9.10e31",
+            y43_left_upper < y43_right,
             {
-                "left_coefficient_upper": frac_to_decimal_string(
-                    Fraction(394, 100) * ln10_hi, 80
-                ),
-                "right_coefficient": "9.10",
+                "left_upper": frac_to_decimal_string(y43_left_upper, 90),
+                "right": frac_to_decimal_string(y43_right, 20),
             },
         )
     )
@@ -444,14 +444,19 @@ def seed_certificates() -> Dict[str, Any]:
             "proth_k_odd": k % 2 == 1,
             "proth_size_condition": 2**n > k,
             "above_theorem_headline_threshold": q >= M_THEOREM_HEADLINE_INT,
+            "displayed_decimal_checked": seed["displayed"] is not None,
             "displayed_decimal_matches": (
-                True if seed["displayed"] is None else str(q) == seed["displayed"]
+                None if seed["displayed"] is None else str(q) == seed["displayed"]
             ),
             "chain_terminal_matches": seq[-1] == terminal,
             "chain_intermediates_prime": all(is_prime_small(x) for x in seq[1:]),
             "proth_witness_base_7": witness_mod == q - 1,
         }
-        ok = all(checks.values())
+        ok = all(
+            value
+            for name, value in checks.items()
+            if name != "displayed_decimal_checked" and value is not None
+        )
         all_ok = all_ok and ok
         records.append(
             {
@@ -480,8 +485,12 @@ def empirical_diagnostics() -> Dict[str, str]:
         "nu": str(inp.nu),
         "c4": mp.nstr(rep["c4"], 50),
         "c43_star": mp.nstr(rep["c43*"], 50),
+        "Y41": mp.nstr(rep["Y41"], 50),
+        "Y42": mp.nstr(rep["Y42"], 50),
         "Y43_star_bisect": mp.nstr(rep["Y43*"], 50),
+        "Y45": mp.nstr(rep["Y45"], 50),
         "Y47": mp.nstr(rep["Y47"], 50),
+        "Y_AP": mp.nstr(rep["Y_AP"], 50),
         "Y_major_empirical": mp.nstr(rep["Y_major"], 50),
         "Y_minor_empirical": mp.nstr(rep["Y_minor"], 50),
         "Y_required_empirical": mp.nstr(rep["Y_required"], 50),
@@ -496,7 +505,7 @@ def build_certificate() -> Dict[str, Any]:
     diagnostics = empirical_diagnostics()
     all_numeric_ok = all(item["ok"] for item in numeric["checks"])
     return {
-        "certificate_format_version": 1,
+        "certificate_format_version": 2,
         "script": Path(__file__).name,
         "proof_relevant_constants": {
             "Y43_star_upper": "9.10e31",
@@ -506,6 +515,28 @@ def build_certificate() -> Dict[str, Any]:
             "M_rigorous_certified": str(M_RIGOROUS_CERTIFIED_INT),
             "M_headline_bound": "1.78e32",
             "M_headline_integer": str(M_THEOREM_HEADLINE_INT),
+        },
+        "threshold_components": {
+            "rigorous_upper_bounds_used_in_proof": {
+                "Y43_star": "9.10e31",
+                "Y_major": "7.90e31",
+                "Y_minor": "8.00e31",
+                "Y_star": "9.10e31",
+            },
+            "computed_threshold_diagnostics_not_used_in_proof": {
+                key: diagnostics[key]
+                for key in (
+                    "Y41",
+                    "Y42",
+                    "Y43_star_bisect",
+                    "Y45",
+                    "Y47",
+                    "Y_major_empirical",
+                    "Y_minor_empirical",
+                    "Y_AP",
+                    "Y_required_empirical",
+                )
+            },
         },
         "numeric_certificate": numeric,
         "seed_certificates": seeds,
@@ -522,6 +553,12 @@ def print_summary(cert: Dict[str, Any]) -> None:
     print(f"Y_minor <= {constants['Y_minor_upper']}")
     print(f"Y_* <= {constants['Y_star_upper']}")
     print(f"M <= {constants['M_rigorous_certified']} < {constants['M_headline_bound']}")
+    components = cert["threshold_components"]["computed_threshold_diagnostics_not_used_in_proof"]
+    print(
+        "Named threshold diagnostics: "
+        f"Y41={components['Y41']}, Y42={components['Y42']}, "
+        f"Y45={components['Y45']}, Y47={components['Y47']}, Y_AP={components['Y_AP']}"
+    )
     print("")
 
     print("=== Rational / interval checks ===")
