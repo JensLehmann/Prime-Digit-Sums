@@ -13,11 +13,11 @@ import sys
 import time
 from typing import Optional
 
-from m_value import M_INT, M_RIGOROUS_CERTIFIED_INT, M_THEOREM_HEADLINE_INT
+from m_value import M_EMPIRICAL_INT, M_RIGOROUS_CERTIFIED_INT, M_THEOREM_HEADLINE_INT
 
 
 THRESHOLDS = {
-    "empirical": M_INT,
+    "empirical": M_EMPIRICAL_INT,
     "rigorous": M_RIGOROUS_CERTIFIED_INT,
     "headline": M_THEOREM_HEADLINE_INT,
 }

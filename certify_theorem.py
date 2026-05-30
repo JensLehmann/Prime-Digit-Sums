@@ -26,7 +26,7 @@ from typing import Any, Dict, Iterable, Optional, Tuple
 import mpmath as mp
 
 from m_value import (
-    M_INT,
+    M_EMPIRICAL_INT,
     M_RIGOROUS_CERTIFIED_INT,
     M_THEOREM_HEADLINE_INT,
 )
@@ -582,7 +582,7 @@ def print_summary(cert: Dict[str, Any]) -> None:
     print(f"Y43*_bisect = {diag['Y43_star_bisect']}")
     print(f"Y_major_emp = {diag['Y_major_empirical']}")
     print(f"Y_minor_emp = {diag['Y_minor_empirical']}")
-    print(f"M_empirical = {diag['M_empirical']} (stored M_INT={M_INT})")
+    print(f"M_empirical = {diag['M_empirical']} (stored M_EMPIRICAL_INT={M_EMPIRICAL_INT})")
     print("")
 
     print("Overall:", "OK" if cert["ok"] else "FAIL")
